@@ -1,0 +1,32 @@
+<p style="color: red"><%= alert %></p>
+
+<h1>College Search</h1>
+
+<%= form_with url: college_search_path, method: :get, scope: :search do |form| %>
+  <div class="form-group">
+    <%= form.label :term, "Enter search term" %>
+    <%= form.text_field :term, value: @search_term %>
+    <%= form.submit "Search" %>
+  </div>
+<% end %>
+
+<div class="search-results" data-controller="map">
+  <div class="map-container" data-map-target="mapContainer" id="map">
+  </div>
+  
+  <% unless @colleges.nil? %>
+    <div class="result-list">
+      <ul class="list-group">
+        <% if @colleges.any? %>
+          <% @colleges.each do |college| %>
+            <li>
+              <%= link_to college['school.name'], '#', data: college_data_params(college) %>
+            </li>
+          <% end %>
+        <% else %>
+          <li>No results found</li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
